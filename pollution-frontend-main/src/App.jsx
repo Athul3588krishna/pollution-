@@ -2,21 +2,19 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import HealthProfile from "./pages/HealthProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
-// import HealthProfile from "./pages/HealthProfile";
+import Navbar from "./components/Navbar";
 
 function App() {
-   
-
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        {/* <Route path="/health" element={<HealthProfile />} /> */}
-       <Route
+        <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
@@ -24,7 +22,15 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/health"
+          element={
+            <ProtectedRoute>
+              <HealthProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );

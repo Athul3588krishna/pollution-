@@ -8,8 +8,9 @@ import jwt from "jsonwebtoken";
 export const addUser = async (req, res) => {
   try {
     const { name, email, pass, cpass } = req.body;
+    const normalizedEmail = email?.toLowerCase().trim();
 
-    if (!name || !email || !pass || !cpass) {
+    if (!name || !normalizedEmail || !pass || !cpass) {
       return res.status(400).json({ msg: "Invalid input" });
     }
 
@@ -17,7 +18,7 @@ export const addUser = async (req, res) => {
       return res.status(400).json({ msg: "Password mismatch" });
     }
 
-    const existingUser = await userSchema.findOne({ email });
+    const existingUser = await userSchema.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({ msg: "User already exists" });
     }
@@ -26,7 +27,7 @@ export const addUser = async (req, res) => {
 
     await userSchema.create({
       name,
-      email,
+      email: normalizedEmail,
       pass: hashedPassword
     });
 
@@ -41,12 +42,13 @@ export const addUser = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, pass } = req.body;
+    const normalizedEmail = email?.toLowerCase().trim();
 
-    if (!email || !pass) {
+    if (!normalizedEmail || !pass) {
       return res.status(400).json({ msg: "Invalid input" });
     }
 
-    const user = await userSchema.findOne({ email });
+    const user = await userSchema.findOne({ email: normalizedEmail });
     if (!user) {
       return res.status(400).json({ msg: "User not found" });
     }
@@ -54,6 +56,10 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(pass, user.pass);
     if (!isMatch) {
       return res.status(400).json({ msg: "Invalid credentials" });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ msg: "JWT secret is not configured" });
     }
 
     const token = jwt.sign(

@@ -6,7 +6,7 @@ export const addHistory = async (req, res, next) => {
   try {
     const { city, aqi, temperature, humidity } = req.body;
 
-    if (!city || !aqi) {
+    if (!city || aqi === undefined || aqi === null) {
       return res.status(400).json({ msg: "City and AQI required" });
     }
 

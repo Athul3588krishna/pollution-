@@ -4,8 +4,9 @@ import HealthProfile from "../models/HealthProfile.js";
 export const saveHealthProfile = async (req, res, next) => {
   try {
     const userId = req.user.userId;
+    const { asthma = false, allergy = false, heart = false } = req.body || {};
 
-    if (!req.body) {
+    if (typeof asthma !== "boolean" || typeof allergy !== "boolean" || typeof heart !== "boolean") {
       return res.status(400).json({ msg: "Health data required" });
     }
 
@@ -13,7 +14,7 @@ export const saveHealthProfile = async (req, res, next) => {
       { user_id: userId },
       {
         user_id: userId,
-        healthConditions: req.body
+        healthConditions: { asthma, allergy, heart }
       },
       { new: true, upsert: true }
     );

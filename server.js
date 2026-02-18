@@ -11,8 +11,6 @@ import errorHandler from "./middleware/errorHandler.js";
 import analysisRoutes from "./routes/analysisRoutes.js";
 
 dotenv.config();
-connectDB();
-
 const app = express();
 
 app.use(cors());
@@ -26,13 +24,24 @@ app.use("/api/history", HistoryRoutes);
 
 app.use("/api/analysis", analysisRoutes);
 
+app.use((req, res) => {
+  res.status(404).json({ msg: "Route not found" });
+});
+
 app.use(errorHandler);
 
-
-
-
-
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`server created at http://localhost:${PORT}`);
-});
+
+async function startServer() {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`server created at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
+}
+
+startServer();

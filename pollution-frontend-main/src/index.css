@@ -1,0 +1,113 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f3f6fb;
+  color: #1b2430;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input,
+button {
+  font: inherit;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #c7d1e0;
+}
+
+button {
+  background: #1f6feb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1a5fd0;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(760px, 100%);
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(31, 51, 73, 0.08);
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.error {
+  color: #c62828;
+}
+
+.success {
+  color: #2e7d32;
+}
+
+.nav {
+  background: #102a43;
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-links a {
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.nav-links .active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-user {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.checkbox-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.centered {
+  text-align: center;
+  padding: 40px;
+}

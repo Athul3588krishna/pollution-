@@ -1,6 +1,8 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+
 export default async function connection() {
-    const db = await mongoose.connect('mongodb://127.0.0.1:27017/pollutionDB')
-    console.log("database created");
-    return db
+  const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/pollutionDB";
+  const db = await mongoose.connect(mongoUri);
+  console.log("database connected");
+  return db;
 }

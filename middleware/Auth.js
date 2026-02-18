@@ -1,30 +1,11 @@
-// import dotenv from 'dotenv';
-// import pkg from 'jsonwebtoken';
-// const { verify } = pkg;
-
-// dotenv.config();
-
-// export default function Auth(req, res, next) {
-//     try {
-//         const key = req.headers.authorization
-//         if (!key) {
-//             return res.status(404).send("unauthorized access")
-//         }
-//         const token = key.split(" ")[1]
-//         const auth = verify(token, process.env.JWT_SECRET)
-//         req.user = auth
-//         next()
-//     }
-//     catch (error) {
-//         return res.status(500).send(error)
-//     }
-// }
-
-
 import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
   try {
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ msg: "JWT secret is not configured" });
+    }
+
     const authHeader = req.header("Authorization") || req.header("authorization");
 
     if (!authHeader) {
